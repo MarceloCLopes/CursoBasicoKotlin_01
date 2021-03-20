@@ -5,20 +5,19 @@ interface Expressao
 class Numero(val valor: Int) : Expressao
 class Soma(val esquerdo: Expressao, val direito: Expressao) : Expressao
 
-fun avaliacao(expressao: Expressao): Int{
-    if (expressao is Numero){
-        return expressao.valor
+// Blocos como ramificações
+fun avaliacao(expressao: Expressao): Int =
+    when(expressao) {
+        is Numero -> {
+            println("Expressão com número: ${expressao.valor}")
+            expressao.valor
+        }
+        is Soma -> avaliacao(expressao.esquerdo) + avaliacao(expressao.direito)
+        else -> throw IllegalArgumentException("Expressão é desconhecida")
     }
-
-    if (expressao is Soma){
-        return avaliacao(expressao.esquerdo) + avaliacao(expressao.direito)
-    }
-
-    throw IllegalArgumentException("Expressão é desconhecida")
-}
 
 fun main(){
-    // ((1 + 2) + 4)
-    val resultado = avaliacao(Soma(Soma(Numero(1), Numero(2)), Numero(4)))
+    // ((3 + 2) + 4) = 9
+    val resultado = avaliacao(Soma(Soma(Numero(3), Numero(2)), Numero(4)))
     println(resultado)
 }
