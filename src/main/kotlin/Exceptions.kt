@@ -1,6 +1,18 @@
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileReader
+
 fun main() {
-    val porcentagem = porcentagem(101)
-    println(porcentagem)
+
+    try {
+        val porcentagem = porcentagem(101)
+        println(porcentagem)
+    } catch (e: IllegalArgumentException){
+        println(e.message)
+    }
+
+    val idade = lerIdade()
+    println(idade)
 }
 
 fun porcentagem(numero: Int): String {
@@ -11,7 +23,16 @@ fun porcentagem(numero: Int): String {
     }
 }
 
-/*
 fun lerIdade(): Int? {
+    val reader = FileReader(File("src/main/kotlin/idades"))
+    val buffer = BufferedReader(reader)
 
-}*/
+    try {
+        val numero = buffer.readLine()
+        return Integer.parseInt(numero)
+    } catch (e: NumberFormatException){
+        return null
+    } finally {
+        buffer.close()
+    }
+}
